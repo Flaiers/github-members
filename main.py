@@ -2,11 +2,12 @@
 # importing libraries
 import config
 import requests
+from FileActions import Writer
 from prettytable import PrettyTable
 from bs4 import BeautifulSoup as bs
 
 
-# Some class for functions
+# class for parsing and generate table
 class GenerateTable:
 
     # A function that initially writes parameters to the self.table
@@ -45,4 +46,5 @@ class GenerateTable:
 if __name__ == '__main__':
     object = GenerateTable()
     object.getData('https://github.com/')
-    print(object.table)
+    w = Writer('output', object.table)
+    w.write()
