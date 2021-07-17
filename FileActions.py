@@ -11,5 +11,5 @@ class Writer:
     # A function that takes parameters from __init__
     # and create and write file
     def write(self):
-        with open(f'{self.name}.md', 'w') as file:
+        with open(f'{self.name}.txt', 'w') as file:
             file.write(str(self.data))
