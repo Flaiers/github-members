@@ -1,6 +1,7 @@
 
 # importing libraries
 import requests
+from time import sleep
 from prettytable import PrettyTable
 from bs4 import BeautifulSoup as bs
 
@@ -13,9 +14,10 @@ class GenerateTable:
     def __init__(self, link):
         self.link = link
         self.page = 1
+        self.number = 1
         self.table = PrettyTable()
-        self.table.field_names = ['Name', 'Username', 'Description', 'Followers', 'Following', 'Stars', 'Location', 'Profile link']
-        self.table.add_row(['Maxim Bigin', 'Flaiers', 'Python Junior Developer', '9', '9', '47', 'Moscow', 'https://github.com/Flaiers'])
+        self.table.field_names = ['№', 'Name', 'Username', 'Description', 'Followers', 'Following', 'Stars', 'Location', 'Repositories', 'Profile link']
+        self.table.add_row(['1', 'Maxim Bigin', 'Flaiers', 'Python Junior Developer', '9', '9', '47', 'Moscow', '30', 'https://github.com/Flaiers'])
 
     # A function that parses data from the GitHub and sets new rows 
     # in the table, looping through the pages
@@ -29,9 +31,10 @@ class GenerateTable:
             members = html_of_members.find_all("li", class_="table-list-item")
 
             # The page exists
-            if (len(members)):
+            if len(members):
                 for member in members:
                     member = member.find('a', class_='css-truncate-target')
+                    self.number += 1
                     name = member.text.strip()
                     username = member.get('href').replace('/', '')
                     profile_link = self.link + username
@@ -49,7 +52,10 @@ class GenerateTable:
                     location = html_profile.find('span', class_='p-label')
                     location = location.text if location is not None else ''
 
-                    self.table.add_row([name, username, description, followers, following, stars, location, profile_link])
+                    repositories = html_profile.find('span', class_='Counter').text
+
+                    self.table.add_row([str(self.number), name, username, description, followers, following, stars, location, repositories, profile_link])
+                    sleep(2)
 
                 self.page += 1
 
