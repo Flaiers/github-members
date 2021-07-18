@@ -17,7 +17,8 @@ class GenerateTable:
         self.page = 1
         self.number = 1
         self.table = PrettyTable()
-        self.table.field_names = ['№', 'Name', 'Username', 'Followers', 'Following', 'Stars', 'Location', 'Repositories', 'Contributions', 'Profile link']
+        self.table.field_names = ['№', 'Name', 'Username', 'Followers', 'Following', 'Stars', 'Location',
+                                'Repositories', 'Contributions', 'Profile link']
 
     # A function that parses data from the my GitHub account 
     # and sets new rows in the table
@@ -42,8 +43,10 @@ class GenerateTable:
         myRepositories = html_founder.find('span', class_='Counter').text
         myContributions = html_founder.find('h2', class_='f4 text-normal mb-2').text.strip().split('\n')[0]
 
-        self.table.add_row([str(self.number), myName, myUsername, myFollowers, myFollowing, myStars, myLocation, myRepositories, myContributions, myProfile_link])
-        db = dbSaver(myName, myUsername, myDescription, myFollowers, myFollowing, myStars, myLocation, myRepositories, myContributions, myProfile_link)
+        self.table.add_row([str(self.number), myName, myUsername, myFollowers, myFollowing, myStars, 
+                            myLocation, myRepositories, myContributions, myProfile_link])
+        db = dbSaver(myName, myUsername, myDescription, myFollowers, myFollowing, myStars, myLocation,
+                    myRepositories, myContributions, myProfile_link)
         db.save()
 
         self.getData()
@@ -84,8 +87,10 @@ class GenerateTable:
                     repositories = html_profile.find('span', class_='Counter').text
                     contributions = html_profile.find('h2', class_='f4 text-normal mb-2').text.strip().split('\n')[0]
 
-                    self.table.add_row([str(self.number), name, username, followers, following, stars, location, repositories, contributions, profile_link])
-                    db = dbSaver(name, username, description, followers, following, stars, location, repositories, contributions, profile_link)
+                    self.table.add_row([str(self.number), name, username, followers, following, stars, location,
+                                        repositories, contributions, profile_link])
+                    db = dbSaver(name, username, description, followers, following, stars, location, repositories,
+                                contributions, profile_link)
                     db.save()
                     sleep(1)
 
