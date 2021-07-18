@@ -1,6 +1,6 @@
 from django.db import models
 
-
+# Model for create db
 class Member(models.Model):
     name = models.CharField(max_length=255, verbose_name="Name")
     username = models.CharField(max_length=255, verbose_name="Username")
