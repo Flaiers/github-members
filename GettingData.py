@@ -9,12 +9,13 @@ from bs4 import BeautifulSoup as bs
 class GenerateTable:
 
     # A function that initially writes parameters to the self.table
+    # variable is set self.page equal to page number, and get link
     def __init__(self, link):
         self.link = link
         self.page = 1
         self.table = PrettyTable()
-        self.table.field_names = ['Name', 'Username', 'Profile link']
-        self.table.add_row(['Maxim Bigin', 'Flaiers', 'https://github.com/Flaiers'])
+        self.table.field_names = ['Name', 'Username', 'Description', 'Followers', 'Following', 'Stars', 'Location', 'Profile link']
+        self.table.add_row(['Maxim Bigin', 'Flaiers', 'Python Junior Developer', '9', '9', '47', 'Moscow', 'https://github.com/Flaiers'])
 
     # A function that parses data from the GitHub and sets new rows 
     # in the table, looping through the pages
@@ -34,10 +35,24 @@ class GenerateTable:
                     name = member.text.strip()
                     username = member.get('href').replace('/', '')
                     profile_link = self.link + username
-                    self.table.add_row([name, username, profile_link])
+
+                    page_profile = requests.get(profile_link)
+                    html_profile = bs(page_profile.content, 'html.parser')
+                    description = html_profile.find('div', class_='p-note')
+                    description = description.text.replace('\n', '') if description is not None else ''
+
+                    info = html_profile.find_all('span', class_='text-bold')
+                    followers = info[0].text
+                    following = info[1].text
+                    stars = info[2].text
+
+                    location = html_profile.find('span', class_='p-label')
+                    location = location.text if location is not None else ''
+
+                    self.table.add_row([name, username, description, followers, following, stars, location, profile_link])
 
                 self.page += 1
-            
+
             # The page does not exist
             else:
                 break
