@@ -4,6 +4,7 @@ from django.db import models
 class Member(models.Model):
     name = models.CharField(max_length=255, verbose_name="Name")
     username = models.CharField(max_length=255, verbose_name="Username")
+    description = models.CharField(max_length=255, verbose_name="Description")
     followers = models.IntegerField('Followers')
     following = models.IntegerField('Following')
     stars = models.IntegerField('Stars')

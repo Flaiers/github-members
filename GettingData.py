@@ -57,7 +57,7 @@ class GenerateTable:
                     contributions = html_profile.find('h2', class_='f4 text-normal mb-2').text.strip().split('\n')[0]
 
                     self.table.add_row([str(self.number), name, username, followers, following, stars, location, repositories, contributions, profile_link])
-                    db = dbSaver(name, username, followers, following, stars, location, repositories, contributions, profile_link)
+                    db = dbSaver(name, username, description, int(followers), int(following), int(stars), location, int(repositories), int(contributions), profile_link)
                     db.save()
                     sleep(1)
 
