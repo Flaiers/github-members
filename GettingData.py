@@ -16,8 +16,8 @@ class GenerateTable:
         self.page = 1
         self.number = 1
         self.table = PrettyTable()
-        self.table.field_names = ['№', 'Name', 'Username', 'Description', 'Followers', 'Following', 'Stars', 'Location', 'Repositories', 'Profile link']
-        self.table.add_row(['1', 'Maxim Bigin', 'Flaiers', 'Python Junior Developer', '9', '9', '47', 'Moscow', '30', 'https://github.com/Flaiers'])
+        self.table.field_names = ['№', 'Name', 'Username', 'Description', 'Followers', 'Following', 'Stars', 'Location', 'Repositories', 'Contributions', 'Profile link']
+        self.table.add_row(['1', 'Maxim Bigin', 'Flaiers', 'Python Junior Developer', '9', '9', '47', 'Moscow', '30', '380', 'https://github.com/Flaiers'])
 
     # A function that parses data from the GitHub and sets new rows 
     # in the table, looping through the pages
@@ -53,8 +53,9 @@ class GenerateTable:
                     location = location.text if location is not None else ''
 
                     repositories = html_profile.find('span', class_='Counter').text
+                    contributions = html_profile.find('h2', class_='f4 text-normal mb-2').text.strip().split('\n')[0]
 
-                    self.table.add_row([str(self.number), name, username, description, followers, following, stars, location, repositories, profile_link])
+                    self.table.add_row([str(self.number), name, username, description, followers, following, stars, location, repositories, contributions, profile_link])
                     sleep(2)
 
                 self.page += 1
