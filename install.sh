@@ -8,4 +8,6 @@ source env/bin/activate
 pip install -U pip
 pip install -r requirements.txt
 
+python manage.py migrate
+
 python main.py
