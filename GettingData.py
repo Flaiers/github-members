@@ -12,8 +12,9 @@ class GenerateTable:
 
     # A function that initially writes parameters to the self.table
     # variable is set self.page equal to page number, and get link
-    def __init__(self, link):
-        self.link = link
+    def __init__(self, company):
+        self.link = 'https://github.com/'
+        self.company = company
         self.page = 1
         self.number = 1
         self.table = PrettyTable()
@@ -58,7 +59,7 @@ class GenerateTable:
         # The same loop that iterates through the pages
         # If the pages end, the loop is terminated by calling break
         while 1:
-            page_of_members = requests.get(f'{self.link}orgs/github/people?page={self.page}')
+            page_of_members = requests.get(f'{self.link}orgs/{self.company}/people?page={self.page}')
             html_of_members = bs(page_of_members.content, 'html.parser')
             members = html_of_members.find_all("li", class_="table-list-item")
 
