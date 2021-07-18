@@ -18,9 +18,35 @@ class GenerateTable:
         self.number = 1
         self.table = PrettyTable()
         self.table.field_names = ['№', 'Name', 'Username', 'Followers', 'Following', 'Stars', 'Location', 'Repositories', 'Contributions', 'Profile link']
-        self.table.add_row(['1', 'Maxim Bigin', 'Flaiers', '9', '9', '47', 'Moscow', '30', '380', 'https://github.com/Flaiers'])
-        db = dbSaver('Maxim Bigin', 'Flaiers', 'Python Junior Developer', '9', '9', '47', 'Moscow', '30', '380', 'https://github.com/Flaiers')
+
+    # A function that parses data from the my GitHub account 
+    # and sets new rows in the table
+    def getMyData(self):
+        myUsername = 'Flaiers'
+        myProfile_link = self.link + myUsername
+        page_founder = requests.get(myProfile_link)
+        html_founder = bs(page_founder.content, 'html.parser')
+
+        myName = html_founder.find('span', class_='p-name').text.strip()
+        myDescription = html_founder.find('div', class_='p-note')
+        myDescription = myDescription.text.replace('\n', '') if myDescription is not None else ''
+
+        myInfo = html_founder.find_all('span', class_='text-bold')
+        myFollowers = myInfo[0].text
+        myFollowing = myInfo[1].text
+        myStars = myInfo[2].text
+
+        myLocation = html_founder.find('span', class_='p-label')
+        myLocation = myLocation.text if myLocation is not None else ''
+
+        myRepositories = html_founder.find('span', class_='Counter').text
+        myContributions = html_founder.find('h2', class_='f4 text-normal mb-2').text.strip().split('\n')[0]
+
+        self.table.add_row([str(self.number), myName, myUsername, myFollowers, myFollowing, myStars, myLocation, myRepositories, myContributions, myProfile_link])
+        db = dbSaver(myName, myUsername, myDescription, myFollowers, myFollowing, myStars, myLocation, myRepositories, myContributions, myProfile_link)
         db.save()
+
+        self.getData()
 
     # A function that parses data from the GitHub and sets new rows 
     # in the table, looping through the pages
