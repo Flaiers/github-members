@@ -10,4 +10,4 @@ pip install -r requirements.txt
 
 python manage.py migrate
 
-python main.py
+cat start.py | ./manage.py shell

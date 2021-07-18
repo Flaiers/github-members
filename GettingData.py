@@ -19,6 +19,8 @@ class GenerateTable:
         self.table = PrettyTable()
         self.table.field_names = ['№', 'Name', 'Username', 'Followers', 'Following', 'Stars', 'Location', 'Repositories', 'Contributions', 'Profile link']
         self.table.add_row(['1', 'Maxim Bigin', 'Flaiers', '9', '9', '47', 'Moscow', '30', '380', 'https://github.com/Flaiers'])
+        db = dbSaver('Maxim Bigin', 'Flaiers', 'Python Junior Developer', '9', '9', '47', 'Moscow', '30', '380', 'https://github.com/Flaiers')
+        db.save()
 
     # A function that parses data from the GitHub and sets new rows 
     # in the table, looping through the pages
@@ -57,7 +59,7 @@ class GenerateTable:
                     contributions = html_profile.find('h2', class_='f4 text-normal mb-2').text.strip().split('\n')[0]
 
                     self.table.add_row([str(self.number), name, username, followers, following, stars, location, repositories, contributions, profile_link])
-                    db = dbSaver(name, username, description, int(followers), int(following), int(stars), location, int(repositories), int(contributions), profile_link)
+                    db = dbSaver(name, username, description, followers, following, stars, location, repositories, contributions, profile_link)
                     db.save()
                     sleep(1)
 
