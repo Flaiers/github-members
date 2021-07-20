@@ -77,10 +77,8 @@ class GenerateTable:
                     description = html_profile.find('div', class_='p-note')
                     description = description.text.replace('\n', '') if description is not None else ''
 
-                    info = html_profile.find_all('span', class_='text-bold')
-                    followers = info[0].text
-                    following = info[1].text
-                    stars = info[2].text
+                    followers, following, stars = html_profile.find_all('span', class_='text-bold')
+                    followers, following, stars = followers.text, following.text, stars.text
 
                     location = html_profile.find('span', class_='p-label')
                     location = location.text if location is not None else ''
