@@ -12,10 +12,11 @@ class GenerateTable:
 
     # A function that initially writes parameters to the self.table
     # variable is set self.page equal to page number, and get link
-    def __init__(self, company):
+    def __init__(self, company, db_save=True):
         self.link = 'https://github.com/'
         self.company = company
         self.page = self.number = 1
+        self.db_save = db_save
         self.table = PrettyTable()
         self.table.field_names = ['№', 'Name', 'Username', 'Followers', 'Following', 'Stars', 'Location',
                                 'Repositories', 'Contributions', 'Profile link']
@@ -32,10 +33,8 @@ class GenerateTable:
         myDescription = html_founder.find('div', class_='p-note')
         myDescription = myDescription.text.replace('\n', '') if myDescription is not None else ''
 
-        myInfo = html_founder.find_all('span', class_='text-bold')
-        myFollowers = myInfo[0].text
-        myFollowing = myInfo[1].text
-        myStars = myInfo[2].text
+        myFollowers, myFollowing, myStars = html_founder.find_all('span', class_='text-bold')
+        myFollowers, myFollowing, myStars = myFollowers.text, myFollowing.text, myStars.text
 
         myLocation = html_founder.find('span', class_='p-label')
         myLocation = myLocation.text if myLocation is not None else ''
@@ -45,9 +44,11 @@ class GenerateTable:
 
         self.table.add_row([str(self.number), myName, myUsername, myFollowers, myFollowing, myStars, 
                             myLocation, myRepositories, myContributions, myProfile_link])
-        db = dbSaver(myName, myUsername, myDescription, myFollowers, myFollowing, myStars, myLocation,
-                    myRepositories, myContributions, myProfile_link)
-        db.save()
+
+        if self.db_save:
+            db = dbSaver(myName, myUsername, myDescription, myFollowers, myFollowing, myStars, myLocation,
+                        myRepositories, myContributions, myProfile_link)
+            db.save()
 
         self.getData()
 
@@ -76,7 +77,8 @@ class GenerateTable:
                     description = html_profile.find('div', class_='p-note')
                     description = description.text.replace('\n', '') if description is not None else ''
 
-                    followers, following, stars = html_profile.find_all('span', class_='text-bold')
+                    info = html_profile.find_all('span', class_='text-bold')
+                    followers, following, stars = info if info != [] else ''
                     followers, following, stars = followers.text, following.text, stars.text
 
                     location = html_profile.find('span', class_='p-label')
@@ -87,13 +89,17 @@ class GenerateTable:
 
                     self.table.add_row([str(self.number), name, username, followers, following, stars, location,
                                         repositories, contributions, profile_link])
-                    db = dbSaver(name, username, description, followers, following, stars, location, repositories,
-                                contributions, profile_link)
-                    db.save()
+
+                    if self.db_save:
+                        db = dbSaver(name, username, description, followers, following, stars, location, repositories,
+                                    contributions, profile_link)
+                        db.save()
+
                     sleep(1)
 
                 self.page += 1
 
             # The page does not exist
             else:
+                print("Successfully completed")
                 break
