@@ -15,8 +15,7 @@ class GenerateTable:
     def __init__(self, company):
         self.link = 'https://github.com/'
         self.company = company
-        self.page = 1
-        self.number = 1
+        self.page = self.number = 1
         self.table = PrettyTable()
         self.table.field_names = ['№', 'Name', 'Username', 'Followers', 'Following', 'Stars', 'Location',
                                 'Repositories', 'Contributions', 'Profile link']
