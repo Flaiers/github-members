@@ -3,7 +3,7 @@ python_interpreter=""
 
 read -p "Python interpreter: " python_interpreter
 `$python_interpreter -m venv env`
-source env/bin/activate
+. env/bin/activate
 
 pip install -U pip
 pip install -r requirements.txt
