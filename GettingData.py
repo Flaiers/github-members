@@ -1,6 +1,6 @@
 
 # importing libraries
-import requests
+import requests, logging
 from time import sleep
 from dbActions import dbSaver
 from prettytable import PrettyTable
@@ -50,6 +50,8 @@ class GenerateTable:
                         myRepositories, myContributions, myProfile_link)
             db.save()
 
+        logging.info("myData successfully writing and saving")
+
         self.getData()
 
     # A function that parses data from the GitHub and sets new rows 
@@ -95,11 +97,13 @@ class GenerateTable:
                                     contributions, profile_link)
                         db.save()
 
+                    logging.info(f"{self.number} members received")
+
                     sleep(1)
 
                 self.page += 1
 
             # The page does not exist
             else:
-                print("Successfully completed")
+                logging.info("Loop interrupted, data received")
                 break
