@@ -13,5 +13,5 @@ class Writer:
     # and create and write file
     def write(self):
         with open(f'{self.name}.txt', 'w') as file:
-            file.write('Writed on %s' % self.date)
+            file.write('Writed on %s\n\n' % self.date)
             file.write(str(self.data))
