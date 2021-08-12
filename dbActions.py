@@ -5,9 +5,10 @@ class dbSaver:
 
     # A function that initially writes 
     # the name and data parameters
-    def __init__(self, name, username, description, followers,
-                following, stars, location, repositories,
-                contributions, profile_link):
+    def __init__(self, name: str, username: str, description: str,
+                followers: str, following: str, stars: str, 
+                location: str, repositories: str, contributions: str,
+                profile_link: str):
 
         self.name = name
         self.username = username
@@ -22,12 +23,16 @@ class dbSaver:
 
     # A function that takes parameters from __init__
     # and save data to db
-    def save(self):
+    def save(self) -> None:
         m = Member(
-                name=self.name, username=self.username,
-                description=self.description, followers=self.followers,
-                following=self.following, stars=self.stars,
-                location=self.location, repositories=self.repositories,
+                name=self.name,
+                username=self.username,
+                description=self.description,
+                followers=self.followers,
+                following=self.following,
+                stars=self.stars,
+                location=self.location,
+                repositories=self.repositories,
                 contributions=self.contributions,
                 profile_link=self.profile_link
             )
