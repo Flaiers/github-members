@@ -12,7 +12,7 @@ class GenerateTable:
 
     # A function that initially writes parameters to the self.table
     # variable is set self.page equal to page number, and get link
-    def __init__(self, company, db_save=True):
+    def __init__(self, company: str, db_save: bool=True):
         self.link = 'https://github.com/'
         self.company = company
         self.page = self.number = 1
@@ -23,7 +23,7 @@ class GenerateTable:
 
     # A function that parses data from the my GitHub account 
     # and sets new rows in the table
-    def getMyData(self):
+    def getMyData(self) -> None:
         myUsername = 'Flaiers'
         myProfile_link = self.link + myUsername
         page_founder = requests.get(myProfile_link)
@@ -56,7 +56,7 @@ class GenerateTable:
 
     # A function that parses data from the GitHub and sets new rows 
     # in the table, looping through the pages
-    def getData(self):
+    def getData(self) -> None:
 
         # The same loop that iterates through the pages
         # If the pages end, the loop is terminated by calling break
